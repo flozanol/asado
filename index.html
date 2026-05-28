@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥 Asado para 18</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire: #E8521A;
+    --ember: #C23B0C;
+    --smoke: #2A1F1A;
+    --ash: #F5EDE4;
+    --cream: #FBF6F0;
+    --gold: #D4861A;
+    --green: #3A6B3A;
+    --text: #2A1F1A;
+    --muted: #7A6058;
+    --border: rgba(42,31,26,0.12);
+    --card: #FFFFFF;
+    --check-done: #3A6B3A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* HEADER */
+  .hero {
+    background: var(--smoke);
+    padding: 2.5rem 1.25rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, rgba(232,82,26,0.35) 0%, transparent 70%);
+  }
+  .hero-emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ash);
+    line-height: 1.15;
+    position: relative;
+  }
+  .hero h1 span { color: var(--fire); }
+  .hero p {
+    color: rgba(245,237,228,0.6);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    position: relative;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--ash);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .progress-label strong { color: var(--text); }
+  .progress-bar-bg {
+    background: rgba(42,31,26,0.1);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--fire), var(--gold));
+    transition: width 0.4s ease;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    background: var(--smoke);
+    padding: 0 1rem;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(245,237,228,0.5);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab.active {
+    color: var(--ash);
+    border-bottom-color: var(--fire);
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CATEGORY */
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .cat-header:first-child { margin-top: 0; }
+  .cat-icon { font-size: 1.1rem; }
+  .cat-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cat-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--ash);
+    padding: 2px 8px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+  }
+
+  /* ITEM */
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .item:active { transform: scale(0.98); }
+  .item.done {
+    background: rgba(58,107,58,0.06);
+    border-color: rgba(58,107,58,0.2);
+  }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 13px;
+    color: white;
+  }
+  .item.done .checkbox {
+    background: var(--check-done);
+    border-color: var(--check-done);
+  }
+
+  .item-body { flex: 1; min-width: 0; }
+  .item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+  .item.done .item-name {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: rgba(58,107,58,0.5);
+  }
+  .item-qty {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* RESET */
+  .reset-btn {
+    display: block;
+    margin: 2rem auto 0;
+    padding: 0.6rem 1.5rem;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--fire); color: var(--fire); }
+
+  /* RECIPE CARD */
+  .recipe {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  .recipe h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+  }
+  .recipe-step {
+    display: flex;
+    gap: 0.6rem;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .step-n {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--ash);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 1px;
+  }
+
+  /* TIP */
+  .tip {
+    background: rgba(212,134,26,0.08);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0.75rem 0;
+  }
+  .tip strong { color: var(--text); }
+
+  /* TIMELINE */
+  .timeline-day {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  .timeline-day h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fire);
+    margin-bottom: 0.6rem;
+  }
+  .tl-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+  .tl-dot { color: var(--fire); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="hero-emoji">🔥</span>
+  <h1>Asado para <span>18</span></h1>
+  <p>16 adultos · 2 niños · lista de compras y guía</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Progreso de compras</span>
+    <strong id="prog-text">0 / 0</strong>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('compras')">🛒 Compras</button>
+  <button class="tab" onclick="showTab('timeline')">📅 Timeline</button>
+  <button class="tab" onclick="showTab('recetas')">👨‍🍳 Recetas</button>
+</div>
+
+<div class="content">
+
+  <!-- COMPRAS -->
+  <div class="section active" id="tab-compras">
+
+    <div class="cat-header">
+      <span class="cat-icon">🥩</span>
+      <span class="cat-title">Carne</span>
+      <span class="cat-count" id="cnt-carne">0/4</span>
+    </div>
+    <div id="grp-carne">
+      <div class="item" onclick="toggle(this)" data-id="ar"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Arrachera gruesa (entrana)</div><div class="item-qty">3 kg — pedir en carnicería</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="co"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Costilla de res en tablillas</div><div class="item-qty">2 kg — pedir corte de 3–4 cm</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ch"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Chuleta de cerdo con hueso</div><div class="item-qty">1.5 kg</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="sa"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Chorizo y salchichas</div><div class="item-qty">1 kg</div></div></div>
+    </div>
+
+    <div class="cat-header">
+      <span class="cat-icon">🥗</span>
+      <span class="cat-title">Acompañamientos</span>
+      <span class="cat-count" id="cnt-acomp">0/12</span>
+    </div>
+    <div id="grp-acomp">
+      <div class="item" onclick="toggle(this)" data-id="pa"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Papas</div><div class="item-qty">3 kg</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="el"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Elotes</div><div class="item-qty">36 piezas (2 por persona)</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="to"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Tortillas</div><div class="item-qty">3 paquetes (~50 c/u)</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="fr"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Frijoles negros</div><div class="item-qty">2 kg</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ag"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Aguacates maduros</div><div class="item-qty">10 piezas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ji"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Jitomates</div><div class="item-qty">5 piezas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ce"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Cebolla blanca</div><div class="item-qty">2 piezas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="li"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Limones</div><div class="item-qty">20 piezas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ga"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Ajo</div><div class="item-qty">2 cabezas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ci"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Cilantro y perejil</div><div class="item-qty">2 manojos de cada uno</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="to2"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Tocino en cubos + chorizo para guisar</div><div class="item-qty">300 g tocino · 2 chorizos</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ar2"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Arroz, aceite de oliva, vinagre, soya</div><div class="item-qty">Despensa básica</div></div></div>
+    </div>
+
+    <div class="cat-header">
+      <span class="cat-icon">🍿</span>
+      <span class="cat-title">Botana</span>
+      <span class="cat-count" id="cnt-botana">0/6</span>
+    </div>
+    <div id="grp-botana">
+      <div class="item" onclick="toggle(this)" data-id="tt"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Totopos</div><div class="item-qty">3 bolsas grandes</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="qu"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Queso Oaxaca / quesillo</div><div class="item-qty">500 g</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ca"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Cacahuates enchilados</div><div class="item-qty">1 bolsa grande</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ve"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Verduras para parrilla</div><div class="item-qty">Calabazas, chiles güeros, cebolla cambray</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="fp"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Fruta picada</div><div class="item-qty">Pepino, jícama, sandía con chile</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="tj"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Tajín y chile piquín</div><div class="item-qty">1 bote de cada uno</div></div></div>
+    </div>
+
+    <div class="cat-header">
+      <span class="cat-icon">🍺</span>
+      <span class="cat-title">Bebidas alcohólicas</span>
+      <span class="cat-count" id="cnt-alc">0/5</span>
+    </div>
+    <div id="grp-alc">
+      <div class="item" onclick="toggle(this)" data-id="bc"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Cerveza clara</div><div class="item-qty">2 cajas de 24</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="bo"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Cerveza oscura</div><div class="item-qty">1 caja de 24</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="tq"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Tequila o Mezcal</div><div class="item-qty">2 botellas 750 ml</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ro"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Ron o Whisky</div><div class="item-qty">2 botellas 750 ml</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="vi"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Vino tinto + Squirt</div><div class="item-qty">1 garrafa 3 L + 6 botellas de toronja</div></div></div>
+    </div>
+
+    <div class="cat-header">
+      <span class="cat-icon">🥤</span>
+      <span class="cat-title">Bebidas sin alcohol</span>
+      <span class="cat-count" id="cnt-noalc">0/4</span>
+    </div>
+    <div id="grp-noalc">
+      <div class="item" onclick="toggle(this)" data-id="ja"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Jamaica y azúcar</div><div class="item-qty">200 g flor · 1 kg azúcar</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="an"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Agua natural + refrescos</div><div class="item-qty">6 botellas 600 ml · 6 latas</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="jn"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Jugo de naranja</div><div class="item-qty">2 L</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="hi"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Hielo</div><div class="item-qty">Mínimo 10 kg</div></div></div>
+    </div>
+
+    <div class="cat-header">
+      <span class="cat-icon">🛠️</span>
+      <span class="cat-title">Logística</span>
+      <span class="cat-count" id="cnt-log">0/5</span>
+    </div>
+    <div id="grp-log">
+      <div class="item" onclick="toggle(this)" data-id="cb"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Carbón</div><div class="item-qty">Mínimo 10 kg</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="al"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Papel aluminio</div><div class="item-qty">1 rollo grande</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="pl"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Platos, vasos y cubiertos desechables</div><div class="item-qty">25+ de cada uno</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="se"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Servilletas</div><div class="item-qty">2 paquetes</div></div></div>
+      <div class="item" onclick="toggle(this)" data-id="ba"><div class="checkbox">✓</div><div class="item-body"><div class="item-name">Bolsas de basura</div><div class="item-qty">1 paquete</div></div></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">↺ Resetear lista</button>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section" id="tab-timeline">
+    <div class="timeline-day">
+      <h3>2 días antes</h3>
+      <div class="tl-item"><span class="tl-dot">→</span>Ir a la carnicería (arrachera, costilla en tablillas, chuleta con hueso)</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Comprar bebidas y meter al refri o hielera con sal</div>
+    </div>
+    <div class="timeline-day">
+      <h3>1 día antes</h3>
+      <div class="tl-item"><span class="tl-dot">→</span>Marinar arrachera (12–24 h en refri)</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Frotar costillas con sal, pimienta, paprika, ajo en polvo</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Hacer frijoles charros y refrigerar</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Hacer chimichurri (reposa mejor de un día para otro)</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Picar verduras para botana</div>
+    </div>
+    <div class="timeline-day">
+      <h3>Día del asado — mañana</h3>
+      <div class="tl-item"><span class="tl-dot">→</span>Hacer agua fresca (jamaica / horchata)</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Sacar la carne del refri 30–45 min antes</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Hacer guacamole 1–2 h antes</div>
+      <div class="tl-item"><span class="tl-dot">→</span>Calentar los frijoles charros</div>
+      <div class="tl-item"><span class="tl-dot">→</span>🔥 Prender carbón 45–60 min antes de que lleguen</div>
+    </div>
+    <div class="timeline-day">
+      <h3>Orden de la parrilla</h3>
+      <div class="tl-item"><span class="tl-dot">1</span>Costilla en aluminio — fuego indirecto — 1.5 horas</div>
+      <div class="tl-item"><span class="tl-dot">2</span>Chorizo y salchichas — fuego directo — 20 min (para botanear mientras espera)</div>
+      <div class="tl-item"><span class="tl-dot">3</span>Arrachera y chuletas — fuego directo — 6–8 min total</div>
+      <div class="tl-item"><span class="tl-dot">4</span>Elotes, verduras y papas al final (papas desde el inicio en aluminio)</div>
+    </div>
+    <div class="tip"><strong>No olvides:</strong> Pinzas y espátula · tabla de corte grande · cuchillo afilado · música 🎶</div>
+  </div>
+
+  <!-- RECETAS -->
+  <div class="section" id="tab-recetas">
+    <div class="recipe">
+      <h3>🥩 Marinada de arrachera</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Licúa: 6 dientes de ajo + jugo de 4 limones + 4 cdas salsa soya + 2 cdas aceite + pimienta negra + una pizca de comino.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Baña la arrachera (3 kg) con la marinada. Bolsa zip o contenedor tapado al refri 12–24 h.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Saca 30 min antes. Asa a fuego alto 3–4 min por lado. Reposa 5 min y rebana en diagonal.</div></div>
+    </div>
+
+    <div class="recipe">
+      <h3>🦴 Costilla de res</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Frota con sal gruesa + pimienta + ajo en polvo + paprika + aceite. Envuelve en papel aluminio doble.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Fuego indirecto con tapa ~1.5 horas.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Abre aluminio, barniza con BBQ o chimichurri y termina 10 min directo sobre la brasa.</div></div>
+    </div>
+
+    <div class="recipe">
+      <h3>🌿 Chimichurri</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Pica muy fino: 1 taza de perejil + 6 dientes de ajo + 1 chile de árbol seco + 1 cdita orégano.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Mezcla con ½ taza aceite de oliva + 3 cdas vinagre blanco + sal y pimienta al gusto.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Reposa mínimo 1 hora. De un día para otro queda mejor.</div></div>
+    </div>
+
+    <div class="recipe">
+      <h3>🥑 Guacamole para 18</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Aplasta 10 aguacates maduros con textura, no puré.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Agrega: 2 jitomates picados sin semilla + ½ cebolla picada fina + 2–3 chiles serranos + cilantro + jugo de 3 limones + sal.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Cubre con plástico a contacto hasta servir. Revuelve justo antes.</div></div>
+    </div>
+
+    <div class="recipe">
+      <h3>🫘 Frijoles charros</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Remoja 2 kg frijoles desde la noche. Cuece 1.5 h en olla express con sal y epazote.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Fríe 300 g tocino en cubos + 2 chorizos desmenuzados + ½ cebolla.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Integra a los frijoles. Agrega 2 jitomates asados y licuados. Hierve 20 min más. Sazona.</div></div>
+    </div>
+
+    <div class="recipe">
+      <h3>🍹 Paloma (cóctel de bienvenida)</h3>
+      <div class="recipe-step"><div class="step-n">1</div><div>Haz una jarra grande: 1 parte tequila + 2 partes Squirt / refresco de toronja.</div></div>
+      <div class="recipe-step"><div class="step-n">2</div><div>Sirve en vaso con hielo y borde de sal. Exprime limón al gusto.</div></div>
+      <div class="recipe-step"><div class="step-n">3</div><div>Ten lista la jarra cuando lleguen los primeros invitados.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'asado18-checks';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function toggle(el) {
+  const id = el.dataset.id;
+  el.classList.toggle('done');
+  const state = loadState();
+  state[id] = el.classList.contains('done');
+  saveState(state);
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.item');
+  const done = document.querySelectorAll('.item.done');
+  const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+  document.getElementById('prog-text').textContent = done.length + ' / ' + all.length;
+  document.getElementById('prog-bar').style.width = pct + '%';
+
+  const groups = {
+    carne: document.querySelectorAll('#grp-carne .item'),
+    acomp: document.querySelectorAll('#grp-acomp .item'),
+    botana: document.querySelectorAll('#grp-botana .item'),
+    alc: document.querySelectorAll('#grp-alc .item'),
+    noalc: document.querySelectorAll('#grp-noalc .item'),
+    log: document.querySelectorAll('#grp-log .item'),
+  };
+  for (const [key, items] of Object.entries(groups)) {
+    const d = [...items].filter(i => i.classList.contains('done')).length;
+    const el = document.getElementById('cnt-' + key);
+    if (el) el.textContent = d + '/' + items.length;
+  }
+}
+
+function resetAll() {
+  if (!confirm('¿Resetear todos los checkboxes?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.item.done').forEach(el => el.classList.remove('done'));
+  updateProgress();
+}
+
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Init
+const state = loadState();
+document.querySelectorAll('.item').forEach(el => {
+  if (state[el.dataset.id]) el.classList.add('done');
+});
+updateProgress();
+</script>
+</body>
+</html>
